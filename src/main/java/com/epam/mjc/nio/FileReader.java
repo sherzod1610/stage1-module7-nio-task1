@@ -26,7 +26,7 @@ public class FileReader {
         FileInputStream fileInputStream = new FileInputStream(file);
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
-            while (bufferedReader.readLine()!=null){
+            while (bufferedReader.readLine() != null) {
                 stringFile.append(bufferedReader.readLine()).append(" ");
             }
         }
