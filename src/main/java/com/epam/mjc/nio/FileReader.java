@@ -5,12 +5,15 @@ import java.io.*;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file) {
-        BufferedReader reader;
+    public Profile getDataFromFile(File file) throws IOException {
+        BufferedReader reader = null;
         try {
             reader = new BufferedReader(new java.io.FileReader(file));
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
+        }finally {
+            assert reader != null;
+            reader.close();
         }
         String line;
                 String name = null;
@@ -21,7 +24,7 @@ public class FileReader {
                 while (true) {
                     try {
                         if ((line = reader.readLine()) == null) break;
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     String[] tokens = line.split(":");
@@ -41,6 +44,8 @@ public class FileReader {
                         case "Phone":
                             phone = Long.valueOf(value);
                             break;
+                        default:
+                            throw new FileNotFoundedException("Not");
                     }
                 }
 
