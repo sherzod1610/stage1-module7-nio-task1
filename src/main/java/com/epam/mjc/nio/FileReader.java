@@ -21,12 +21,14 @@ public class FileReader {
         Profile profile = new Profile();
         String[] array;
         array = fileReader.getInformation(fileReader.readFile(file));
-
-        profile.setName(array[1]);
-        profile.setAge(Integer.valueOf(array[3]));
-        profile.setEmail(array[5]);
-        profile.setPhone(Long.valueOf(array[7]));
-        return profile;
+        if (array.length!=0){
+            profile.setName(array[1]);
+            profile.setAge(Integer.valueOf(array[3]));
+            profile.setEmail(array[5]);
+            profile.setPhone(Long.valueOf(array[7]));
+            return profile;
+        }
+        throw new FileNotFoundedException("dj");
     }
 
     public String readFile(File file) throws IOException {
