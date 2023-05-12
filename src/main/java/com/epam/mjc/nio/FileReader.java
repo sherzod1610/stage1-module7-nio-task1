@@ -14,6 +14,9 @@ public class FileReader {
         } catch (IOException e) {
             throw new FileNotFoundedException(e);
         }
+        if (array.length < 2) {
+            throw new IllegalArgumentException("Invalid input file format");
+        }
         profile.setName(array[1]);
         profile.setAge(Integer.valueOf(array[3]));
         profile.setEmail(array[5]);
@@ -26,8 +29,9 @@ public class FileReader {
         FileInputStream fileInputStream = new FileInputStream(file);
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
-            while (bufferedReader.readLine()!=null){
-                stringFile.append(bufferedReader.readLine()).append(" ");
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringFile.append(line).append(" ");
             }
         }
         return stringFile.toString();
