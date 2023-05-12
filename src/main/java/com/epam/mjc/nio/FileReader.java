@@ -29,18 +29,22 @@ public class FileReader {
     }
 
     public String readFile(File file) throws IOException {
+        StringBuilder stringFile = new StringBuilder();
         FileInputStream fileInputStream = new FileInputStream(file);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            return line;
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            while ((bufferedReader.readLine()) != null) {
+                stringFile.append(bufferedReader.readLine()).append(" ");
+            }
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
-        return null;
+        return stringFile.toString();
     }
 
 
     public String[] getInformation(String text) {
-
         return text.split("\n");
     }
 }
