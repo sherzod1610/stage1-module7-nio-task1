@@ -6,11 +6,11 @@ import java.io.*;
 public class FileReader {
 
     public Profile getDataFromFile(File file) {
-            try {
-                return returnProfile(file);
-            } catch (IOException e) {
-                throw new FileNotFoundedException(e);
-            }
+        try {
+            return returnProfile(file);
+        } catch (IOException e) {
+            throw new FileNotFoundedException(e);
+        }
     }
 
     public Profile returnProfile(File file) throws IOException {
@@ -18,7 +18,7 @@ public class FileReader {
         Profile profile = new Profile();
         String[] array;
         array = fileReader.getInformation(fileReader.readFile(file));
-        if (array.length!=0){
+        if (array.length != 0) {
             profile.setName(array[1]);
             profile.setAge(Integer.valueOf(array[3]));
             profile.setEmail(array[5]);
@@ -29,12 +29,11 @@ public class FileReader {
     }
 
     public String readFile(File file) throws IOException {
-        StringBuilder stringFile = new StringBuilder();
+        StringBuilder stringFile = null;
         FileInputStream fileInputStream = new FileInputStream(file);
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
-            while (bufferedReader.readLine() != null) {
-                stringFile.append(bufferedReader.readLine()).append(" ");
+            while ((stringFile = new StringBuilder(bufferedReader.readLine())) != null) {
             }
         }
         return stringFile.toString();
