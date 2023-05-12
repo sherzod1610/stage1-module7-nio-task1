@@ -28,15 +28,18 @@ public class FileReader {
         throw new IndexOutOfBoundsException();
     }
 
-    public String readFile(File file) throws IOException {
-        StringBuilder stringFile = null;
-        FileInputStream fileInputStream = new FileInputStream(file);
-
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
+    public String readFile(File file){
+        BufferedReader bufferedReader;
+        try {
+            bufferedReader = new BufferedReader(new java.io.FileReader(file));
+            StringBuilder stringFile = null;
             while ((stringFile = new StringBuilder(bufferedReader.readLine())) != null) {
+                return stringFile.toString();
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return stringFile.toString();
+        return null;
     }
 
 
