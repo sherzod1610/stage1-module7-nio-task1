@@ -6,14 +6,11 @@ import java.io.*;
 public class FileReader {
 
     public Profile getDataFromFile(File file) {
-        if (file.exists()){
             try {
                 return returnProfile(file);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new FileNotFoundedException(e);
             }
-        }
-        throw new FileNotFoundedException("File not found");
     }
 
     public Profile returnProfile(File file) throws IOException {
@@ -28,19 +25,17 @@ public class FileReader {
             profile.setPhone(Long.valueOf(array[7]));
             return profile;
         }
-        throw new FileNotFoundedException("dj");
+        throw new IndexOutOfBoundsException();
     }
 
     public String readFile(File file) throws IOException {
-        StringBuilder stringFile = new StringBuilder();
         FileInputStream fileInputStream = new FileInputStream(file);
-
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
-            while (bufferedReader.readLine() != null) {
-                stringFile.append(bufferedReader.readLine()).append(" ");
-            }
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            return line;
         }
-        return stringFile.toString();
+        return null;
     }
 
 
