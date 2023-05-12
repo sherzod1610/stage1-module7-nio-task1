@@ -6,14 +6,22 @@ import java.io.*;
 public class FileReader {
 
     public Profile getDataFromFile(File file) {
+        if (file.exists()){
+            try {
+                return returnProfile(file);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        throw new FileNotFoundedException("File not found");
+    }
+
+    public Profile returnProfile(File file) throws IOException {
         FileReader fileReader = new FileReader();
         Profile profile = new Profile();
         String[] array;
-        try {
-            array = fileReader.getInformation(fileReader.readFile(file));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        array = fileReader.getInformation(fileReader.readFile(file));
+
         profile.setName(array[1]);
         profile.setAge(Integer.valueOf(array[3]));
         profile.setEmail(array[5]);
