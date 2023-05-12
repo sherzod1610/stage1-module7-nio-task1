@@ -12,7 +12,7 @@ public class FileReader {
         try {
             array = fileReader.getInformation(fileReader.readFile(file));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileNotFoundedException(e);
         }
         profile.setName(array[1]);
         profile.setAge(Integer.valueOf(array[3]));
