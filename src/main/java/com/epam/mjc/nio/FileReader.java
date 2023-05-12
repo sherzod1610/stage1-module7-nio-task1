@@ -5,50 +5,36 @@ import java.io.*;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file) throws IOException {
-        BufferedReader reader = null;
+    public Profile getDataFromFile(File file) {
+        FileReader fileReader = new FileReader();
+        Profile profile = new Profile();
+        String[] array;
         try {
-            reader = new BufferedReader(new java.io.FileReader(file));
-        } catch (Exception e) {
+            array = fileReader.getInformation(fileReader.readFile(file));
+        } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
-            assert reader != null;
-            reader.close();
         }
-        String line;
-                String name = null;
-                int age = 0;
-                String email = null;
-                Long phone = null;
+        profile.setName(array[1]);
+        profile.setAge(Integer.valueOf(array[3]));
+        profile.setEmail(array[5]);
+        profile.setPhone(Long.valueOf(array[7]));
+        return profile;
+    }
 
-                while (true) {
-                    try {
-                        if ((line = reader.readLine()) == null) break;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    String[] tokens = line.split(":");
-                    String key = tokens[0].trim();
-                    String value = tokens[1].trim();
+    public String readFile(File file) throws IOException {
+        StringBuilder stringFile = new StringBuilder();
+        FileInputStream fileInputStream = new FileInputStream(file);
 
-                    switch (key) {
-                        case "Name":
-                            name = value;
-                            break;
-                        case "Age":
-                            age = Integer.parseInt(value);
-                            break;
-                        case "Email":
-                            email = value;
-                            break;
-                        case "Phone":
-                            phone = Long.valueOf(value);
-                            break;
-                        default:
-                            throw new FileNotFoundedException("Not");
-                    }
-                }
-
-                return new Profile(name, age, email, phone);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
+            while (bufferedReader.readLine()!=null){
+                stringFile.append(bufferedReader.readLine()).append(" ");
             }
         }
+        return stringFile.toString();
+    }
+
+
+    public String[] getInformation(String text) {
+        return text.split("\n");
+    }
+}
